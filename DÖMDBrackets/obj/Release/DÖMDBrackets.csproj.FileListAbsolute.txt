@@ -1,0 +1,10 @@
+P:\Projekt\Visual C-Sharp\DÖMDBrackets\DÖMDBrackets\bin\Release\DÖMDBrackets.exe.config
+P:\Projekt\Visual C-Sharp\DÖMDBrackets\DÖMDBrackets\bin\Release\DÖMDBrackets.exe
+P:\Projekt\Visual C-Sharp\DÖMDBrackets\DÖMDBrackets\bin\Release\DÖMDBrackets.pdb
+P:\Projekt\Visual C-Sharp\DÖMDBrackets\DÖMDBrackets\obj\Release\DÖMDBrackets.BracketView.resources
+P:\Projekt\Visual C-Sharp\DÖMDBrackets\DÖMDBrackets\obj\Release\DÖMDBrackets.Form1.resources
+P:\Projekt\Visual C-Sharp\DÖMDBrackets\DÖMDBrackets\obj\Release\DÖMDBrackets.Properties.Resources.resources
+P:\Projekt\Visual C-Sharp\DÖMDBrackets\DÖMDBrackets\obj\Release\DÖMDBrackets.csproj.GenerateResource.Cache
+P:\Projekt\Visual C-Sharp\DÖMDBrackets\DÖMDBrackets\obj\Release\DÖMDBrackets.exe
+P:\Projekt\Visual C-Sharp\DÖMDBrackets\DÖMDBrackets\obj\Release\DÖMDBrackets.pdb
+P:\Projekt\Visual C-Sharp\DÖMDBrackets\DÖMDBrackets\obj\Release\DÖMDBrackets.csprojResolveAssemblyReference.cache

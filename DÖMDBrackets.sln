@@ -1,0 +1,20 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Express 2012 for Windows Desktop
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DÖMDBrackets", "DÖMDBrackets\DÖMDBrackets.csproj", "{A72040BB-28C8-4590-8C96-492B6718CFBA}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{A72040BB-28C8-4590-8C96-492B6718CFBA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A72040BB-28C8-4590-8C96-492B6718CFBA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A72040BB-28C8-4590-8C96-492B6718CFBA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A72040BB-28C8-4590-8C96-492B6718CFBA}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+EndGlobal
