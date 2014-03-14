@@ -28,6 +28,7 @@ namespace DÖMDBrackets
             
             
             BracketHandler.createBracketBox();
+            BracketHandler.updateBracketBox();
         }
     }
 }

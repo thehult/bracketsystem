@@ -14,5 +14,6 @@ namespace DÖMDBrackets
         public string team2;
         public string winner;
         public int timestamp;
+        public bool needRender = true;
     }
 }

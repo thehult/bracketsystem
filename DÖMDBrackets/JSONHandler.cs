@@ -26,9 +26,10 @@ namespace DÖMDBrackets
                 tmpMatch.roundID = dic["roundID"];
                 tmpMatch.team1 = dic["teams"][0];
                 tmpMatch.team2 = dic["teams"][1];
+                tmpMatch.timestamp = dic["timestamp"];
                 BracketHandler.matches[round - 1, i] = tmpMatch;
                 i++;
-                if (i == teamCount / (int)Math.Pow(2, round) - 1)
+                if (i == teamCount / (int)Math.Pow(2, round))
                 {
                     round++;
                     i = 0;

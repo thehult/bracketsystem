@@ -13,7 +13,8 @@ namespace DÖMDBrackets
         public static BracketView bracketView;
         public static Match[,] matches;
 
-        public static Bitmap bracketImage = new Bitmap(1000, 1000);
+        public static Bitmap bracketImage = new Bitmap(1920, 1080);
+        public static Bitmap offImage = new Bitmap(3840, 2160);
 
         private static int matchHeight;
         private static int matchWidth; 
@@ -27,19 +28,19 @@ namespace DÖMDBrackets
         public static void initBracket(int teamCount)
         {
             matches = new Match[(int)Math.Ceiling(Math.Log(teamCount, 2)), (int)(teamCount / 2)];
-            matchHeight = 2 * bracketImage.Height / matches.GetLength(1);
-            matchWidth = bracketImage.Width / (matches.GetLength(0) +1);
+            matchHeight = 2 * offImage.Height / matches.GetLength(1);
+            matchWidth = offImage.Width / (2 + (int)Math.Log(teamCount/2, 2) * 2);
             boxHeight = matchHeight / 2 - 3;
             boxWidth = matchWidth;
             paddingVertical = boxHeight / 4;
-            paddingHorizontal = 3;
+            paddingHorizontal = 4;
         }
 
         public static void createBracketBox()
         {
-            Graphics g = Graphics.FromImage(bracketImage);
+            Graphics g = Graphics.FromImage(offImage);
             int ms = 0;
-            g.DrawRectangle(pen, 0, 0, bracketImage.Width, bracketImage.Height);
+            g.DrawRectangle(pen, 0, 0, offImage.Width, offImage.Height);
             int yoff = 0;
             for (int round = 0; round < matches.GetLength(0) - 1; round++)
             {
@@ -47,73 +48,129 @@ namespace DÖMDBrackets
                 {
                     for (int i = 0; i < Math.Pow(2, matches.GetLength(0) - round - 2); i++)
                     {
-                        /*g.FillRectangle(Brushes.Red,
-                            round * matchWidth + j * bracketImage.Width - j * 2 * (round + 1) * matchWidth + paddingHorizontal,
-                            i * matchHeight + i * round * matchHeight + round * matchHeight / 2 + paddingVertical,
+                        int boxX = round * matchWidth + j * offImage.Width - j * 2 * (round) * matchWidth - j * matchWidth + paddingHorizontal;
+                        int boxY = i * offImage.Height / (int)Math.Pow(2, 7 - round - 2) + paddingVertical + yoff;  
+                        g.FillRectangle(Brushes.White,
+                            boxX,
+                            boxY,
                             boxWidth - paddingHorizontal,
                             boxHeight);
-                        g.FillRectangle(Brushes.Blue,
-                            round * matchWidth + j * bracketImage.Width - j * 2 * (round + 1) * matchWidth + paddingHorizontal,
-                            i * matchHeight + i * round * matchHeight + round * matchHeight / 2 + paddingVertical + boxHeight,
+                        g.FillRectangle(Brushes.White,
+                            boxX,
+                            boxY + boxHeight,
                             boxWidth - paddingHorizontal,
-                            boxHeight);
+                            boxHeight); 
                         g.DrawRectangle(pen,
-                            round * matchWidth + j * bracketImage.Width - j * 2 * (round + 1) * matchWidth + paddingHorizontal,
-                            i * matchHeight + i * round * matchHeight + round * matchHeight / 2 + paddingVertical,
+                            boxX,
+                            boxY,
                             boxWidth - paddingHorizontal,
-                            boxHeight);
+                            boxHeight * 2);
                         g.DrawRectangle(pen,
-                            round * matchWidth + j * bracketImage.Width - j * 2 * (round + 1) * matchWidth + paddingHorizontal,
-                            i * matchHeight + i * round * matchHeight + round * matchHeight / 2 + paddingVertical + boxHeight,
-                            boxWidth - paddingHorizontal,
-                            boxHeight);*/
-                        g.FillRectangle(Brushes.Red,
-                            round * matchWidth + j * bracketImage.Width - j * 2 * (round + 1) * matchWidth + paddingHorizontal,
-                            i * bracketImage.Height / (int)Math.Pow(2, 7 - round - 2) + paddingVertical + yoff,
+                            boxX,
+                            boxY + boxHeight,
                             boxWidth - paddingHorizontal,
                             boxHeight);
-                        g.FillRectangle(Brushes.Blue,
-                            round * matchWidth + j * bracketImage.Width - j * 2 * (round + 1) * matchWidth + paddingHorizontal,
-                           i * bracketImage.Height / (int)Math.Pow(2, 7 - round - 2) + paddingVertical + boxHeight + yoff,
-                            boxWidth - paddingHorizontal,
-                            boxHeight);
-                        g.DrawRectangle(pen,
-                            round * matchWidth + j * bracketImage.Width - j * 2 * (round + 1) * matchWidth + paddingHorizontal,
-                           i * bracketImage.Height / (int)Math.Pow(2, 7 - round - 2) + paddingVertical + yoff,
-                            boxWidth - paddingHorizontal,
-                            boxHeight);
-                        g.DrawRectangle(pen,
-                            round * matchWidth + j * bracketImage.Width - j * 2 * (round + 1) * matchWidth + paddingHorizontal,
-                           i * bracketImage.Height / (int)Math.Pow(2, 7 - round - 2) + paddingVertical + boxHeight + yoff,
-                            boxWidth - paddingHorizontal,
-                            boxHeight);
-                        
+
+                        //g.DrawString(ms.ToString(), new Font("Verdana", boxHeight ), Brushes.Black, new PointF(boxX, boxY));
                         ms++;
                     }
                 }
-                yoff += bracketImage.Height / (int)Math.Pow(2, 7 - round - 2) - (bracketImage.Height / (int)Math.Pow(2, 7 - round - 2))/2;
+                yoff += offImage.Height / (int)Math.Pow(2, 7 - round - 2) - (offImage.Height / (int)Math.Pow(2, 7 - round - 2))/2;
             }
-            MessageBox.Show("Boxes: " + ms);
+            g.FillRectangle(Brushes.White,
+                offImage.Width / 2 - boxWidth + paddingHorizontal,
+                offImage.Height / 2 - boxHeight / 2 + paddingVertical,
+                boxWidth,
+                boxHeight);
+            g.FillRectangle(Brushes.White,
+                offImage.Width / 2,
+                offImage.Height / 2 - boxHeight / 2 + paddingVertical,
+                boxWidth,
+                boxHeight);
+            g.DrawRectangle(pen,
+                offImage.Width / 2 - boxWidth + paddingHorizontal,
+                offImage.Height / 2 - boxHeight / 2 + paddingVertical,
+                boxWidth,
+                boxHeight);
+            g.DrawRectangle(pen,
+                offImage.Width / 2,
+                offImage.Height / 2 - boxHeight / 2 + paddingVertical,
+                boxWidth,
+                boxHeight);
+            /*g.FillRectangle(Brushes.White,
+                offImage.Width / 2 - boxWidth + paddingHorizontal,
+                offImage.Height / 2 + boxHeight * 6,
+                boxWidth * 2,
+                boxHeight * 2);
+            g.DrawRectangle(pen,
+                offImage.Width / 2 - boxWidth + paddingHorizontal,
+                offImage.Height / 2 + boxHeight * 6,
+                boxWidth * 2,
+                boxHeight * 2);*/
+            //MessageBox.Show("Boxes: " + ms);
+
+            bracketImage = new Bitmap(offImage, bracketImage.Width, bracketImage.Height);
+            bracketView.bracketBox.Image = bracketImage;
+
         }
 
         public static void updateBracketBox()
         {
-            
-            
-
-            Bitmap newBitmap = new Bitmap(bracketImage);
-
-            for (int round = 0; round < matches.GetLength(0); round++)
+            Graphics g = Graphics.FromImage(offImage);
+            Font font = new Font("Verdana", boxHeight / 2);
+            int yoff = 0;
+            for (int round = 0; round < matches.GetLength(0) - 1; round++)
             {
+                int mId = 0;
                 for (int j = 0; j < 2; j++)
                 {
-                    for (int i = 0; i < Math.Pow(2, matches.GetLength(0) - round + 1); i++)
+                    for (int i = 0; i < Math.Pow(2, matches.GetLength(0) - round - 2); i++)
                     {
-
+                        int boxX = round * matchWidth + j * offImage.Width - j * 2 * (round) * matchWidth - j * matchWidth + paddingHorizontal;
+                        int boxY = i * offImage.Height / (int)Math.Pow(2, 7 - round - 2) + paddingVertical + yoff;
+                        /*g.FillRectangle(Brushes.White,
+                            boxX,
+                            boxY,
+                            boxWidth - paddingHorizontal,
+                            boxHeight);
+                        g.FillRectangle(Brushes.White,
+                            boxX,
+                            boxY + boxHeight,
+                            boxWidth - paddingHorizontal,
+                            boxHeight);
+                        g.DrawRectangle(pen,
+                            boxX,
+                            boxY,
+                            boxWidth - paddingHorizontal,
+                            boxHeight * 2);
+                        g.DrawRectangle(pen,
+                            boxX,
+                            boxY + boxHeight,
+                            boxWidth - paddingHorizontal,
+                            boxHeight);*/
+                        if (matches[round, mId].team1 != null)
+                        {
+                            g.DrawString(matches[round, mId].team1,
+                                font,
+                                Brushes.Black,
+                                boxX,
+                                boxY);
+                        }
+                        if (matches[round, mId].team2 != null)
+                        {
+                            g.DrawString(matches[round, mId].team2,
+                                font,
+                                Brushes.Black,
+                                boxX,
+                                boxY + boxHeight);
+                            mId++;
+                        }
                     }
                 }
+                yoff += offImage.Height / (int)Math.Pow(2, 7 - round - 2) - (offImage.Height / (int)Math.Pow(2, 7 - round - 2)) / 2;
             }
-
+            bracketImage = offImage;
+            bracketView.bracketBox.Image = bracketImage;
         }
 
         public static void showBracketView(Screen screen)
