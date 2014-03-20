@@ -14,19 +14,18 @@ namespace DÖMDBrackets
             Match tmpMatch;
             int round = 1;
 
-
             var jss = new JavaScriptSerializer();
             var dict = jss.Deserialize<dynamic>(JSON);
             int i = 0;
             foreach (dynamic dic in dict)
             {
-                
                 tmpMatch = new Match();
                 tmpMatch.id = dic["id"];
                 tmpMatch.roundID = dic["roundID"];
                 tmpMatch.team1 = dic["teams"][0];
                 tmpMatch.team2 = dic["teams"][1];
                 tmpMatch.timestamp = dic["timestamp"];
+                tmpMatch.needRender = true;
                 BracketHandler.matches[round - 1, i] = tmpMatch;
                 i++;
                 if (i == teamCount / (int)Math.Pow(2, round))
@@ -39,6 +38,17 @@ namespace DÖMDBrackets
                     break;
                 }
             }
+        }
+
+        public static int JSONgetNoMatches(string JSON)
+        {
+            var jss = new JavaScriptSerializer();
+            var dict = jss.Deserialize<dynamic>(JSON);
+            int no = 1;
+            int roundID = dict[0]["roundID"];
+            while (dict[no]["roundID"] == roundID)
+                no++;
+            return no;
         }
     }
 }
