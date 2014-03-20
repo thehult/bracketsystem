@@ -56,7 +56,7 @@ namespace DÖMDBrackets
                     for (int i = 0; i < Math.Pow(2, matches.GetLength(0) - round - 2); i++)
                     {
                         int boxX = round * matchWidth + j * offImage.Width - j * 2 * (round) * matchWidth - j * matchWidth + paddingHorizontal;
-                        int boxY = i * offImage.Height / (int)Math.Pow(2, 7 - round - 2) + paddingVertical + yoff;  
+                        int boxY = i * offImage.Height / (int)Math.Pow(2, noRounds - round - 2) + yoff;
                         g.FillRectangle(Brushes.White,
                             boxX,
                             boxY,
@@ -78,43 +78,31 @@ namespace DÖMDBrackets
                             boxWidth - paddingHorizontal,
                             boxHeight);
 
-                        //g.DrawString(ms.ToString(), new Font("Verdana", boxHeight ), Brushes.Black, new PointF(boxX, boxY));
                         ms++;
                     }
                 }
-                yoff += offImage.Height / (int)Math.Pow(2, 7 - round - 2) - (offImage.Height / (int)Math.Pow(2, 7 - round - 2))/2;
+                yoff += offImage.Height / (int)Math.Pow(2, noRounds - round - 2) - (offImage.Height / (int)Math.Pow(2, noRounds - round - 2))/2;
             }
             g.FillRectangle(Brushes.White,
                 offImage.Width / 2 - boxWidth + paddingHorizontal,
-                offImage.Height / 2 - boxHeight / 2 + paddingVertical,
+                offImage.Height / 2 - boxHeight / 2,
                 boxWidth,
                 boxHeight);
             g.FillRectangle(Brushes.White,
                 offImage.Width / 2,
-                offImage.Height / 2 - boxHeight / 2 + paddingVertical,
+                offImage.Height / 2 - boxHeight / 2,
                 boxWidth,
                 boxHeight);
             g.DrawRectangle(pen,
-                offImage.Width / 2 - boxWidth + paddingHorizontal,
-                offImage.Height / 2 - boxHeight / 2 + paddingVertical,
+                offImage.Width / 2 - boxWidth,
+                offImage.Height / 2 - boxHeight / 2,
                 boxWidth,
                 boxHeight);
             g.DrawRectangle(pen,
                 offImage.Width / 2,
-                offImage.Height / 2 - boxHeight / 2 + paddingVertical,
+                offImage.Height / 2 - boxHeight / 2,
                 boxWidth,
                 boxHeight);
-           /*g.FillRectangle(Brushes.White,
-                offImage.Width / 2 - boxWidth + paddingHorizontal,
-                offImage.Height / 2 + boxHeight * 6,
-                boxWidth * 2,
-                boxHeight * 2);
-            g.DrawRectangle(pen,
-                offImage.Width / 2 - boxWidth + paddingHorizontal,
-                offImage.Height / 2 + boxHeight * 6,
-                boxWidth * 2,
-                boxHeight * 2);*/
-            //MessageBox.Show("Boxes: " + ms);
 
             bracketImage = new Bitmap(offImage, bracketImage.Width, bracketImage.Height);
             bracketView.bracketBox.Image = bracketImage;
@@ -137,27 +125,7 @@ namespace DÖMDBrackets
                         {
                             
                             int boxX = round * matchWidth + j * offImage.Width - j * 2 * (round) * matchWidth - j * matchWidth + paddingHorizontal;
-                            int boxY = i * offImage.Height / (int)Math.Pow(2, 7 - round - 2) + paddingVertical + yoff;
-                            /*g.FillRectangle(Brushes.White,
-                                boxX,
-                                boxY,
-                                boxWidth - paddingHorizontal,
-                                boxHeight);
-                            g.FillRectangle(Brushes.White,
-                                boxX,
-                                boxY + boxHeight,
-                                boxWidth - paddingHorizontal,
-                                boxHeight);
-                            g.DrawRectangle(pen,
-                                boxX,
-                                boxY,
-                                boxWidth - paddingHorizontal,
-                                boxHeight * 2);
-                            g.DrawRectangle(pen,
-                                boxX,
-                                boxY + boxHeight,
-                                boxWidth - paddingHorizontal,
-                                boxHeight);*/
+                            int boxY = i * offImage.Height / (int)Math.Pow(2, noRounds - round - 2) + yoff;
                             if (matches[round, mId].team1 != null)
                             {
                                 Font team1Font = new Font(font.Name, font.Size, FontStyle.Regular, GraphicsUnit.Pixel);
@@ -208,7 +176,7 @@ namespace DÖMDBrackets
                         }
                     }
                 }
-                yoff += offImage.Height / (int)Math.Pow(2, 7 - round - 2) - (offImage.Height / (int)Math.Pow(2, 7 - round - 2)) / 2;
+                yoff += offImage.Height / (int)Math.Pow(2, noRounds - round - 2) - (offImage.Height / (int)Math.Pow(2, noRounds - round - 2)) / 2;
             }
             viewSetter();
         }
@@ -263,6 +231,11 @@ namespace DÖMDBrackets
             viewSetter = setSemiView;
             bracketImage = offImage.Clone(new Rectangle((noRounds - 2) * matchWidth, offImage.Height / 2 - 9 * matchWidth / 8, 4 * matchWidth, 9 * matchWidth / 4), offImage.PixelFormat);
             bracketView.bracketBox.Image = bracketImage;
+        }
+
+        public static int getNoRounds()
+        {
+            return noRounds;
         }
     }
 }
