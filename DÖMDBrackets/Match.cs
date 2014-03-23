@@ -10,9 +10,9 @@ namespace DÖMDBrackets
     {
         public int id;
         public int roundID;
-        public string team1;
-        public string team2;
-        public string winner;
+        public string team1 = "";
+        public string team2 = "";
+        public string winner = "";
         public int timestamp;
         public bool needRender = true;
     }

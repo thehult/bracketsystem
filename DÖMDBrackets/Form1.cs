@@ -29,18 +29,28 @@ namespace DÖMDBrackets
         }
 
         public void startBracketBox(Screen otherScreen, int teams) {
-            BracketHandler.bracketView = new BracketView();
             BracketHandler.showBracketView(otherScreen);
             BracketHandler.initBracket(teams);
             BracketHandler.createBracketBox();
             BracketHandler.setFullView();
+            if(numericUpDown1.Value > 0) {
+                timerView.Interval = (int)numericUpDown1.Value * 1000;
+                timerView.Enabled = true;
+                timerView.Start();
+            }
         }
 
         public Screen getBestScreen()
         {
-            var myScreen = Screen.FromControl(this);
-            return Screen.AllScreens.FirstOrDefault(s => !s.Equals(myScreen))
-                           ?? myScreen;
+            //var myScreen = Screen.FromControl(this);
+            //return Screen.AllScreens.FirstOrDefault(s => !s.Equals(myScreen))
+              //             ?? myScreen;
+            foreach (Screen s in Screen.AllScreens)
+            {
+                if (s.DeviceName == (string)cbScreens.SelectedItem)
+                    return s;
+            }
+            return Screen.PrimaryScreen;
         }
 
         private void btnLoadTextFile_Click(object sender, EventArgs e)
@@ -79,7 +89,10 @@ namespace DÖMDBrackets
 
 
                 BracketHandler.updateBracketBox();
+                //this.panelConfiguration.Hide();
                 this.panelOffline.Show();
+                this.panelOffline.BringToFront();
+                this.lblHeader.Text = "Match Management";
             }
         }
 
@@ -90,6 +103,12 @@ namespace DÖMDBrackets
                 cbScreens.Items.Add(s.DeviceName);
             }
             cbScreens.SelectedIndex = 0;
+            this.panelConfig.Show();
+            this.panelConfig.BringToFront();
+            
+            //this.panelOffline.Show();
+            //this.panelOffline.BringToFront();
+            //MessageBox.Show(this.btnJSONURL.Parent.Name);
         }
 
         private void btnLoadJSONFile_Click(object sender, EventArgs e)
@@ -113,26 +132,166 @@ namespace DÖMDBrackets
         }
 
         Match editMatch = null;
+        int editRound = -1;
+        int editMatchNr = -1;
 
         private void btnSearch_Click(object sender, EventArgs e)
         {
-            string search = txtTeam.Text;
+            string search = txtTeam.Text.ToLower();
             for (int r = BracketHandler.getNoRounds() - 1; r >= 0; r--)
             {
                 for (int i = 0; i < (int)Math.Pow(2, BracketHandler.getNoRounds() - r - 1); i++)
                 {
+                    //MessageBox.Show("Checking match in round: " + r + " id: " + i);
                     Match m = BracketHandler.matches[r, i];
                     if (m != null)
                     {
-                        if (m.team1 == search || m.team2 == search)
+                        if (m.team1.ToLower() == search || m.team2.ToLower() == search)
                         {
+                            editRound = r;
+                            editMatchNr = i;
                             editMatch = m;
                             lblTeam1.Text = m.team1;
                             lblTeam2.Text = m.team2;
                             radioTeam1.Text = m.team1;
                             radioTeam2.Text = m.team2;
+                            if (m.winner.ToLower() == m.team1.ToLower())
+                                radioTeam1.Select();
+                            else if (m.winner.ToLower() == m.team2.ToLower())
+                                radioTeam2.Select();
+                            else
+                                radioNoWinner.Select();
+                            btnSaveMatch.Enabled = true;
+                            i = int.MaxValue - 2;
+                            r = -1;
                         }
                     }
+                }
+            }
+        }
+
+        private void btnSaveMatch_Click(object sender, EventArgs e)
+        {
+            if (editMatch != null && editRound != -1 && editMatchNr != -1)
+            {
+                if (radioTeam1.Checked)
+                    editMatch.winner = editMatch.team1;
+                else if (radioTeam2.Checked)
+                    editMatch.winner = editMatch.team2;
+                else
+                    editMatch.winner = "-";
+
+                if (BracketHandler.matches[editRound + 1, (int)(editMatchNr / 2)] == null)
+                {
+                    BracketHandler.matches[editRound + 1, (int)(editMatchNr / 2)] = new Match();
+                }
+
+                if (editMatchNr % 2 == 0)
+                    BracketHandler.matches[editRound + 1, (int)(editMatchNr / 2)].team1 = editMatch.winner;
+                else
+                    BracketHandler.matches[editRound + 1, (int)(editMatchNr / 2)].team2 = editMatch.winner;
+
+                BracketHandler.matches[editRound + 1, (int)(editMatchNr / 2)].needRender = true;
+                BracketHandler.updateBracketBox();
+            }
+        }
+
+        private int viewCounter = 0;
+        private void timerView_Tick(object sender, EventArgs e)
+        {
+            viewCounter = (viewCounter + 1) % 5;
+            switch (viewCounter)
+            {
+                case 0:
+                    BracketHandler.setFullView();
+                    break;
+                case 1:
+                    BracketHandler.setTopLeftView();
+                    break;
+                case 2:
+                    BracketHandler.setBottomLeftView();
+                    break;
+                case 3:
+                    BracketHandler.setTopRightView();
+                    break;
+                case 4:
+                    BracketHandler.setBottomRightView();
+                    break;
+                default:
+                    BracketHandler.setFullView();
+                    break;
+            }
+            
+        }
+
+        private void btnSelectLogo_Click(object sender, EventArgs e)
+        {
+            if (openLogoDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                try
+                {
+                    Image img = null;
+                    if ((img = Image.FromFile(openLogoDialog.FileName)) != null)
+                    {
+                        BracketHandler.logoImage = new Bitmap(img);
+                    }
+                }
+                catch (Exception ee)
+                {
+                    MessageBox.Show("Invalid image file!");
+                }
+            }
+        }
+
+        private void btnSelectBGColor_Click(object sender, EventArgs e)
+        {
+            if (colorBGDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                BracketHandler.bracketView.BackColor = colorBGDialog.Color;
+            }
+        }
+
+        private void btnSelectBGPattern_Click(object sender, EventArgs e)
+        {
+            if (openLogoDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                try
+                {
+                    Image img = null;
+                    if ((img = Image.FromFile(openLogoDialog.FileName)) != null)
+                    {
+                        BracketHandler.bgPatternImage = new Bitmap(img);
+                    }
+                }
+                catch (Exception ee)
+                {
+                    MessageBox.Show("Invalid image file!");
+                }
+            }
+        }
+
+        private void btnSelectSponsFolder_Click(object sender, EventArgs e)
+        {
+            if (folderSponsDialog.ShowDialog() == System.Windows.Forms.DialogResult.OK)
+            {
+                try
+                {
+                    string[] files = Directory.GetFiles(folderSponsDialog.SelectedPath);
+                    BracketHandler.sponsImages = new Bitmap[files.Length];
+                    Image img = null;
+                    for (int i = 0; i < files.Length; i++)
+                    {
+                        if ((img = Image.FromFile(files[i])) != null)
+                        {
+                            BracketHandler.sponsImages[i] = new Bitmap(img);
+                        }
+                        img = null;
+                    }
+                    
+                }
+                catch (Exception ee)
+                {
+                    MessageBox.Show("Invalid image files! Folder must ONLY contain images");
                 }
             }
         }

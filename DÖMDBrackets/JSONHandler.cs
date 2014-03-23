@@ -24,6 +24,7 @@ namespace DÖMDBrackets
                 tmpMatch.roundID = dic["roundID"];
                 tmpMatch.team1 = dic["teams"][0];
                 tmpMatch.team2 = dic["teams"][1];
+                tmpMatch.winner = dic["winner"];
                 tmpMatch.timestamp = dic["timestamp"];
                 tmpMatch.needRender = true;
                 BracketHandler.matches[round - 1, i] = tmpMatch;
