@@ -189,18 +189,18 @@ namespace DÖMDBrackets
             //Logo
             if (logoImage != null)
             {
-                int maxHeight = offImage.Height / 2 - 2 * matchHeight;
+                int maxHeight = offImage.Height / 2 - matchHeight;
                 int maxWidth = (int)(3.5 * matchWidth);
                 int width = logoImage.Width;
                 int height = logoImage.Height;
                 if (width > maxWidth)
                 {
-                    height = (int)((double)maxHeight * (double)maxWidth / (double)width);
+                    height = (int)((double)logoImage.Height * ((double)maxWidth / (double)logoImage.Width));
                     width = maxWidth;
                 }
                 if (height > maxHeight)
                 {
-                    width = (int)((double)maxWidth * (double)maxHeight / (double)height);
+                    width = (int)((double)logoImage.Width * (double)maxHeight / (double)logoImage.Height);
                     height = maxHeight;
                 }
                 g.DrawImage(logoImage, offImage.Width / 2 - width / 2, offImage.Height / 4 - height / 2, width, height);
