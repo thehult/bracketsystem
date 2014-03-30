@@ -13,6 +13,8 @@ namespace DÖMDBrackets
 {
     public partial class Form1 : Form
     {
+        TeamListView teamListView = new TeamListView();
+
 
         public Form1()
         {
@@ -294,6 +296,11 @@ namespace DÖMDBrackets
                     MessageBox.Show("Invalid image files! Folder must ONLY contain images");
                 }
             }
+        }
+
+        private void btnTeamListing_Click(object sender, EventArgs e)
+        {
+            teamListView.Show();
         }
 
     }

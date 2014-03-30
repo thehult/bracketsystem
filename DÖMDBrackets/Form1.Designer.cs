@@ -30,6 +30,7 @@
         {
             this.components = new System.ComponentModel.Container();
             this.panelMain = new System.Windows.Forms.Panel();
+            this.btnTeamListing = new System.Windows.Forms.Button();
             this.panelConfig = new System.Windows.Forms.Panel();
             this.label9 = new System.Windows.Forms.Label();
             this.btnSelectBGColor = new System.Windows.Forms.Button();
@@ -77,6 +78,7 @@
             // 
             // panelMain
             // 
+            this.panelMain.Controls.Add(this.btnTeamListing);
             this.panelMain.Controls.Add(this.panelConfig);
             this.panelMain.Controls.Add(this.lblHeader);
             this.panelMain.Controls.Add(this.panelOffline);
@@ -86,6 +88,16 @@
             this.panelMain.Name = "panelMain";
             this.panelMain.Size = new System.Drawing.Size(784, 562);
             this.panelMain.TabIndex = 0;
+            // 
+            // btnTeamListing
+            // 
+            this.btnTeamListing.Location = new System.Drawing.Point(656, 17);
+            this.btnTeamListing.Name = "btnTeamListing";
+            this.btnTeamListing.Size = new System.Drawing.Size(116, 23);
+            this.btnTeamListing.TabIndex = 9;
+            this.btnTeamListing.Text = "Team Listing";
+            this.btnTeamListing.UseVisualStyleBackColor = true;
+            this.btnTeamListing.Click += new System.EventHandler(this.btnTeamListing_Click);
             // 
             // panelConfig
             // 
@@ -326,6 +338,7 @@
             // 
             // panelOffline
             // 
+            
             this.panelOffline.Controls.Add(this.btnSaveMatch);
             this.panelOffline.Controls.Add(this.btnSearch);
             this.panelOffline.Controls.Add(this.radioNoWinner);
@@ -540,6 +553,7 @@
         private System.Windows.Forms.Button btnSelectBGPattern;
         private System.Windows.Forms.ColorDialog colorBGDialog;
         private System.Windows.Forms.FolderBrowserDialog folderSponsDialog;
+        private System.Windows.Forms.Button btnTeamListing;
     }
 }
 
