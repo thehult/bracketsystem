@@ -25,7 +25,10 @@ namespace DÖMDBrackets
                 tmpMatch.team1 = dic["teams"][0];
                 tmpMatch.team2 = dic["teams"][1];
                 tmpMatch.winner = dic["winner"];
-                tmpMatch.timestamp = dic["timestamp"];
+                if (dic["timestamp"] != null)
+                    tmpMatch.timestamp = dic["timestamp"];
+                else
+                    tmpMatch.timestamp = 0;
                 tmpMatch.needRender = true;
                 BracketHandler.matches[round - 1, i] = tmpMatch;
                 i++;
@@ -47,7 +50,7 @@ namespace DÖMDBrackets
             var dict = jss.Deserialize<dynamic>(JSON);
             int no = 1;
             int roundID = dict[0]["roundID"];
-            while (dict[no]["roundID"] == roundID)
+            while (no < dict.Length && dict[no]["roundID"] == roundID)
                 no++;
             return no;
         }

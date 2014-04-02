@@ -19,3 +19,4 @@ D:\Projekt\C-Sharp\DÖMDBrackets\DÖMDBrackets\obj\Debug\DÖMDBrackets.Form1.res
 D:\Projekt\C-Sharp\DÖMDBrackets\DÖMDBrackets\obj\Debug\DÖMDBrackets.Properties.Resources.resources
 D:\Projekt\C-Sharp\DÖMDBrackets\DÖMDBrackets\obj\Debug\DÖMDBrackets.csproj.GenerateResource.Cache
 P:\Projekt\Visual C-Sharp\DÖMDBrackets\DÖMDBrackets\obj\Debug\DÖMDBrackets.TeamListView.resources
+D:\Projekt\C-Sharp\DÖMDBrackets\DÖMDBrackets\obj\Debug\DÖMDBrackets.TeamListView.resources

@@ -107,6 +107,7 @@ namespace DÖMDBrackets
             cbScreens.SelectedIndex = 0;
             this.panelConfig.Show();
             this.panelConfig.BringToFront();
+            timerUpdateInterval.Stop();
             
             //this.panelOffline.Show();
             //this.panelOffline.BringToFront();
@@ -120,7 +121,7 @@ namespace DÖMDBrackets
 
         private void btnJSONURL_Click(object sender, EventArgs e)
         {
-
+            panelOnline.BringToFront();
         }
 
         private void btnLoadBackup_Click(object sender, EventArgs e)
@@ -301,6 +302,59 @@ namespace DÖMDBrackets
         private void btnTeamListing_Click(object sender, EventArgs e)
         {
             teamListView.Show();
+        }
+
+        private bool timerToggled = false;
+        
+        private void btnToggleUpdates_Click(object sender, EventArgs e)
+        {
+            if (!timerToggled)
+            {
+                timerUpdateInterval.Interval = (int)nrUpdateInterval.Value * 1000;
+                updateJSONBracket();
+                timerUpdateInterval.Enabled = true;
+                timerUpdateInterval.Start();
+            }
+            else
+            {
+                timerUpdateInterval.Stop();
+                timerUpdateInterval.Enabled = false;
+            }
+            timerToggled = !timerToggled;
+        }
+
+        private void timerUpdateInterval_Tick(object sender, EventArgs e)
+        {
+            updateJSONBracket();
+        }
+
+        private void updateJSONBracket()
+        {
+            WebClient wc = new WebClient();
+            string s = wc.DownloadString(txtJSONURL.Text.Trim());
+            int matches = JSONHandler.JSONgetNoMatches(s);
+            JSONHandler.loadJSON(s, matches * 2);
+            BracketHandler.updateBracketBox();
+        }
+
+        private void btnStartView_Click(object sender, EventArgs e)
+        {
+            startBracketBox(getBestScreen(), (int)nrTeams.Value);
+        }
+
+        private int teams = 128;
+        private void nrTeams_ValueChanged(object sender, EventArgs e)
+        {
+            if (nrTeams.Value < teams)
+            {
+                teams = teams / 2;
+                nrTeams.Value = teams;
+            }
+            if (nrTeams.Value > teams)
+            {
+                teams = teams * 2;
+                nrTeams.Value = teams;
+            }
         }
 
     }
