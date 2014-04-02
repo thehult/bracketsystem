@@ -149,7 +149,7 @@ namespace DÖMDBrackets
                     Match m = BracketHandler.matches[r, i];
                     if (m != null)
                     {
-                        if (m.team1.ToLower() == search || m.team2.ToLower() == search)
+                        if (m.team1.ToLower() == search || m.team2 == search)
                         {
                             editRound = r;
                             editMatchNr = i;
@@ -202,22 +202,25 @@ namespace DÖMDBrackets
         private int viewCounter = 0;
         private void timerView_Tick(object sender, EventArgs e)
         {
-            viewCounter = (viewCounter + 1) % 5;
+            viewCounter = (viewCounter + 1) % 6;
             switch (viewCounter)
             {
                 case 0:
                     BracketHandler.setFullView();
                     break;
                 case 1:
-                    BracketHandler.setTopLeftView();
+                    BracketHandler.setFullView();
                     break;
                 case 2:
-                    BracketHandler.setBottomLeftView();
+                    BracketHandler.setTopLeftView();
                     break;
                 case 3:
-                    BracketHandler.setTopRightView();
+                    BracketHandler.setBottomLeftView();
                     break;
                 case 4:
+                    BracketHandler.setTopRightView();
+                    break;
+                case 5:
                     BracketHandler.setBottomRightView();
                     break;
                 default:
